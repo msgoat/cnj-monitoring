@@ -1,13 +1,12 @@
 apiVersion: v2
-version: 0.1.0
+version: 1.0.0
 appVersion: "${project.version}"
 description: "${project.description}"
 name: cnj-monitoring-resources
 maintainers:
   - name: theism
-    email: Michael Theis (msg group)
+    email: michael.theis@msg.group
 dependencies:
   - name: postgresql
     version: "8.8.0"
     repository: "https://charts.bitnami.com/bitnami"
-
