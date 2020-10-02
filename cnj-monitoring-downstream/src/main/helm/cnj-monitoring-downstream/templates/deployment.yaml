@@ -13,6 +13,12 @@ spec:
     metadata:
       labels:
         {{- include "cnj-monitoring-downstream.labels" . | nindent 8 }}
+      annotations:
+{{- if .Values.metrics.enabled }}
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "actuator/prometheus"
+        prometheus.io/port: "8080"
+{{- end }}
     spec:
       containers:
         - name: {{ .Chart.Name }}

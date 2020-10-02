@@ -59,3 +59,8 @@ persistence:
       keys:
         user: postgresql-user
         password: postgresql-password
+
+# metrics configuration
+metrics:
+  # enabled controls if pods are annotated for scraping
+  enabled: true
