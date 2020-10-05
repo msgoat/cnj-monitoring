@@ -1,6 +1,7 @@
 # cnj-monitoring
 
-Showcase demonstrating cloud native monitoring in a Kubernetes cluster.
+Showcase demonstrating cloud native monitoring in a Kubernetes cluster using a system tool stack based on 
+Prometheus and Grafana.
 
 The actual integration of cluster logging is demonstrated with four different Java backend technologies:
 
@@ -12,7 +13,7 @@ The actual integration of cluster logging is demonstrated with four different Ja
 All showcases use a common resources container project, which deploys all attached resources to Kubernetes (see: [cnj-monitoring-resources](cnj-monitoring-resources/README.md)])
 
 ## Status
-![Build status](https://drone.at.automotive.msg.team/api/badges/msgoat/cnj-monitoring/status.svg)
+![Build status](https://drone.at41tools.k8s.aws.msgoat.eu/api/badges/msgoat/cnj-monitoring/status.svg)
 
 ## Build this showcase 
 
