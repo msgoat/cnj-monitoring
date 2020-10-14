@@ -62,5 +62,10 @@ persistence:
 
 # metrics configuration
 metrics:
-  # enabled controls if pods are annotated for scraping
+  # controls if pods are annotated for scraping
   enabled: true
+  # path to metrics endpoint
+  path: /actuator/prometheus
+  serviceMonitor:
+    # installs a prometheus-operator service monitor CRD when true
+    enabled: true

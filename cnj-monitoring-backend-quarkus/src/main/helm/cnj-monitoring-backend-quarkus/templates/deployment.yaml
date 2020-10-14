@@ -14,11 +14,13 @@ spec:
       labels:
         {{- include "cnj-monitoring-backend-quarkus.labels" . | nindent 8 }}
       annotations:
-{{- if .Values.metrics.enabled }}
+        {{- if .Values.metrics.enabled }}
+        {{- if not .Values.metrics.serviceMonitor.enabled }}
         prometheus.io/scrape: "true"
-        prometheus.io/path: "metrics"
+        prometheus.io/path: {{ .Values.metrics.path }}
         prometheus.io/port: "8080"
-{{- end }}
+        {{- end }}
+        {{- end }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
