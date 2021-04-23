@@ -12,4 +12,4 @@ spec:
       protocol: TCP
       name: http
   selector:
-    {{- include "cnj-monitoring-backend-javaee.selectorLabels" . | nindent 6 }}
+    {{- include "cnj-monitoring-backend-javaee.selectorLabels" . | nindent 4 }}
