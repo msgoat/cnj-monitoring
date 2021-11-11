@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>group.msg.at.cloud</groupId>
     <artifactId>cnj-monitoring</artifactId>
-    <version>4.1.0</version>
+    <version>5.0.0</version>
     <packaging>pom</packaging>
     <description>Cloud native Java applications showcase for cluster monitoring</description>
     <properties>
@@ -13,16 +13,15 @@
     <modules>
         <module>cnj-monitoring-resources</module>
         <module>cnj-monitoring-downstream</module>
-        <module>cnj-monitoring-backend-javaee</module>
         <module>cnj-monitoring-backend-micro</module>
         <module>cnj-monitoring-backend-spring</module>
         <module>cnj-monitoring-backend-quarkus</module>
     </modules>
     <distributionManagement>
         <repository>
-            <id>at41-maven-repository</id>
-            <name>msg Automotive AT Maven Releases Repository</name>
-            <url>https://nexus.cloudtrain.aws.msgoat.eu/repository/maven-releases/</url>
+            <id>cloudtrain-maven-repository</id>
+            <name>msg Automotive CloudTrain Releases Repository</name>
+            <url>https://nexus.cloudtrain.aws.msgoat.eu/repository/cloudtrain-releases/</url>
         </repository>
     </distributionManagement>
 </project>

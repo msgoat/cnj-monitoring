@@ -5,7 +5,6 @@ Prometheus and Grafana.
 
 The actual integration of cluster logging is demonstrated with four different Java backend technologies:
 
-* Java EE (see: [cnj-monitoring-backend-javaee](cnj-monitoring-backend-javaee/README.md))
 * Eclipse MicroProfile (see: [cnj-monitoring-backend-micro](cnj-monitoring-backend-micro/README.md))
 * Spring Boot + Spring Data (see: [cnj-monitoring-backend-spring](cnj-monitoring-backend-spring/README.md))
 * Quarkus (see: [cnj-monitoring-backend-quarkus](cnj-monitoring-backend-quarkus/README.md))

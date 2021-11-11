@@ -26,16 +26,6 @@ steps:
     image: docker.cloudtrain.aws.msgoat.eu/cloudtrain/cnj-drone-build:1.1.0
     commands:
       - mvn clean verify -f cnj-monitoring-downstream/pom.xml -B -ff -e -V -U -P integration-test-stage -Dchangelist=.${DRONE_BRANCH} -Dsha1=.${DRONE_COMMIT_SHA:0:8}
-  - name: javaee-commit-stage
-    image: docker.cloudtrain.aws.msgoat.eu/cloudtrain/cnj-drone-build:1.1.0
-    privileged: true
-    commands:
-      - start-docker.sh
-      - mvn clean install -f cnj-monitoring-backend-javaee/pom.xml -B -ff -e -V -U -P commit-stage -Dchangelist=.${DRONE_BRANCH} -Dsha1=.${DRONE_COMMIT_SHA:0:8} -Dtest.target.readinessProbe.failureThreshold=10
-  - name: javaee-integration-test-stage
-    image: docker.cloudtrain.aws.msgoat.eu/cloudtrain/cnj-drone-build:1.1.0
-    commands:
-      - mvn clean verify -f cnj-monitoring-backend-javaee/pom.xml -B -ff -e -V -U -P integration-test-stage -Dchangelist=.${DRONE_BRANCH} -Dsha1=.${DRONE_COMMIT_SHA:0:8}
   - name: micro-commit-stage
     image: docker.cloudtrain.aws.msgoat.eu/cloudtrain/cnj-drone-build:1.1.0
     privileged: true
