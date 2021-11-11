@@ -21,7 +21,10 @@ steps:
     privileged: true
     commands:
       - start-docker.sh
-      - mvn clean install -f cnj-monitoring-downstream/pom.xml -B -ff -e -V -U -P commit-stage -Dchangelist=.${DRONE_BRANCH} -Dsha1=.${DRONE_COMMIT_SHA:0:8} -Dtest.target.readinessProbe.failureThreshold=10
+      - mvn clean install -f cnj-monitoring-downstream/pom.xml -B -ff -e -V -U -P commit-stage -Dchangelist=.${DRONE_BRANCH} -Dsha1=.${DRONE_COMMIT_SHA:0:8} -Dsonar.login=$SONARQUBE_TOKEN -Dtest.target.readinessProbe.failureThreshold=10
+    environment:
+      SONARQUBE_TOKEN:
+        from_secret: sonarqube_token
   - name: downstream-integration-test-stage
     image: docker.cloudtrain.aws.msgoat.eu/cloudtrain/cnj-drone-build:1.1.0
     commands:
@@ -31,7 +34,10 @@ steps:
     privileged: true
     commands:
       - start-docker.sh
-      - mvn clean install -f cnj-monitoring-backend-micro/pom.xml -B -ff -e -V -U -P commit-stage -Dchangelist=.${DRONE_BRANCH} -Dsha1=.${DRONE_COMMIT_SHA:0:8}
+      - mvn clean install -f cnj-monitoring-backend-micro/pom.xml -B -ff -e -V -U -P commit-stage -Dchangelist=.${DRONE_BRANCH} -Dsha1=.${DRONE_COMMIT_SHA:0:8} -Dsonar.login=$SONARQUBE_TOKEN
+    environment:
+      SONARQUBE_TOKEN:
+        from_secret: sonarqube_token
   - name: micro-integration-test-stage
     image: docker.cloudtrain.aws.msgoat.eu/cloudtrain/cnj-drone-build:1.1.0
     privileged: true
@@ -43,7 +49,10 @@ steps:
     privileged: true
     commands:
       - start-docker.sh
-      - mvn clean install -f cnj-monitoring-backend-spring/pom.xml -B -ff -e -V -U -P commit-stage -Dchangelist=.${DRONE_BRANCH} -Dsha1=.${DRONE_COMMIT_SHA:0:8}
+      - mvn clean install -f cnj-monitoring-backend-spring/pom.xml -B -ff -e -V -U -P commit-stage -Dchangelist=.${DRONE_BRANCH} -Dsha1=.${DRONE_COMMIT_SHA:0:8} -Dsonar.login=$SONARQUBE_TOKEN
+    environment:
+      SONARQUBE_TOKEN:
+        from_secret: sonarqube_token
   - name: spring-integration-test-stage
     image: docker.cloudtrain.aws.msgoat.eu/cloudtrain/cnj-drone-build:1.1.0
     commands:
@@ -53,7 +62,10 @@ steps:
     privileged: true
     commands:
       - start-docker.sh
-      - mvn clean install -f cnj-monitoring-backend-quarkus/pom.xml -B -ff -e -V -U -P commit-stage -Dchangelist=.${DRONE_BRANCH} -Dsha1=.${DRONE_COMMIT_SHA:0:8}
+      - mvn clean install -f cnj-monitoring-backend-quarkus/pom.xml -B -ff -e -V -U -P commit-stage -Dchangelist=.${DRONE_BRANCH} -Dsha1=.${DRONE_COMMIT_SHA:0:8} -Dsonar.login=$SONARQUBE_TOKEN
+    environment:
+      SONARQUBE_TOKEN:
+        from_secret: sonarqube_token
   - name: quarkus-integration-test-stage
     image: docker.cloudtrain.aws.msgoat.eu/cloudtrain/cnj-drone-build:1.1.0
     commands:
