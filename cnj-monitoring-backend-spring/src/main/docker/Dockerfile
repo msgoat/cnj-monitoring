@@ -1,40 +1,41 @@
-FROM docker.cloudtrain.aws.msgoat.eu/cloudtrain/at41-docker-jre11:3.0.0
+FROM eclipse-temurin:11-jre
 
+LABEL maintainer="michael.theis@msg.group"
+LABEL ${project.groupId}.${project.artifactId}.project="CloudTrain"
+LABEL ${project.groupId}.${project.artifactId}.version="${project.version}"
+LABEL ${project.groupId}.${project.artifactId}.description="${project.description}"
 
-LABEL maintainer="Michael Theis (msg group)" \
-        ${project.groupId}.${project.artifactId}.project="CloudTrain" \
-        ${project.groupId}.${project.artifactId}.version="${project.version}" \
-        ${project.groupId}.${project.artifactId}.description="${project.description}"
+ARG ARG_JAVA_APPLICATION=${project.build.finalName}.jar
+ARG ARG_JAVA_APPLICATION_HOME=/home/spring
 
-ENV JAVA_OPTS="" \
-    DOCKER_JAVA_OPTS="" \
+ENV JAVA_APPLICATION=${ARG_JAVA_APPLICATION} \
+    JAVA_APPLICATION_HOME=${ARG_JAVA_APPLICATION_HOME} \
+    JAVA_OPTS="-XshowSettings:vm -XX:+UseG1GC -XX:MetaspaceSize=256m -XX:+DisableExplicitGC -XX:+UseStringDeduplication -XX:+ParallelRefProcEnabled" \
+    EXT_JAVA_OPTS="" \
+    DOCKER_JAVA_OPTS="-XX:+UseContainerSupport -XX:InitialRAMPercentage=75.0 -XX:MaxRAMPercentage=75.0" \
     SPRING_JAVA_OPTS="" \
-    SPRING_PROFILES_ACTIVE="cloud" \
-    CNAP_CLOUD="local" \
-    SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI="" \
-    SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI="" \
-    POSTGRES_DB_HOST="" \
-    POSTGRES_DB_PORT="" \
-    POSTGRES_DB_NAME="" \
-    POSTGRES_DB_USER="" \
-    POSTGRES_DB_PASSWORD=""
+    SPRING_ARGUMENTS="" \
+    SPRING_PROFILES_ACTIVE="default" \
+    JAVA_APPLICATION=${ARG_JAVA_APPLICATION} \
+    JAVA_APPLICATION_HOME=${ARG_JAVA_APPLICATION_HOME}
 
-RUN echo "adding run user spring to system" \
-    && addgroup -S spring -g 1000 \
-    && adduser -S spring -u 1000 -G spring
+RUN echo "adding run user spring to system" && \
+    addgroup --gid 1000 --system spring && \
+    adduser --system --disabled-login --disabled-password --ingroup spring --uid 1000 spring
 
-COPY *.jar /home/spring/
-COPY docker-entrypoint.sh /home/spring/
+COPY docker-entrypoint.sh /
+COPY *.jar ${ARG_JAVA_APPLICATION_HOME}/
 
-RUN chown -R spring:spring /home/spring \
-    && chmod u+x /home/spring/docker-entrypoint.sh
+RUN chown spring:spring /docker-entrypoint.sh \
+    && chmod u+x /docker-entrypoint.sh \
+    && chown -R spring:spring ${ARG_JAVA_APPLICATION_HOME}
 
 # use user ID instead of user name to allow kubernetes to check non-root users
 USER 1000
 
 EXPOSE 8080
 
-ENTRYPOINT ["/home/spring/docker-entrypoint.sh"]
+ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["java"]
 
 
