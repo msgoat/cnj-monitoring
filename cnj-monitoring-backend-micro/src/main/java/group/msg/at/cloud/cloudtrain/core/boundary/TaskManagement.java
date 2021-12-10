@@ -3,12 +3,15 @@ package group.msg.at.cloud.cloudtrain.core.boundary;
 import group.msg.at.cloud.cloudtrain.adapter.persistence.jpa.repository.GenericRepository;
 import group.msg.at.cloud.cloudtrain.core.control.UserPermissionVerifier;
 import group.msg.at.cloud.cloudtrain.core.entity.Task;
+import org.eclipse.microprofile.metrics.annotation.Counted;
+import org.eclipse.microprofile.metrics.annotation.Gauge;
+import org.eclipse.microprofile.metrics.annotation.Timed;
 
-import javax.annotation.security.RolesAllowed;
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.ejb.Stateless;
+import jakarta.inject.Inject;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,6 +29,8 @@ public class TaskManagement {
     private UserPermissionVerifier verifier;
 
     @NotNull
+    @Counted(name = "business_task_added")
+    @Timed(name="business_task_added_time")
     public UUID addTask(@NotNull @Valid Task newTask) {
         verifier.requirePermission("TASK_CREATE");
         newTask.setId(UUID.randomUUID());

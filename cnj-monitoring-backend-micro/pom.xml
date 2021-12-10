@@ -11,21 +11,21 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!-- runtime related properties -->
         <java.version>11</java.version>
-        <javaee.version>8.0.1</javaee.version>
-        <payara.version>5.2020.4</payara.version>
-        <microprofile.version>3.3</microprofile.version>
+        <jakartaee.version>9.1.0</jakartaee.version>
+        <payara.version>5.2021.8</payara.version>
+        <microprofile.version>4.1</microprofile.version>
         <!-- common logging dependencies -->
-        <slf4j.version>1.7.30</slf4j.version>
+        <slf4j.version>1.7.32</slf4j.version>
         <!-- common rest dependencies -->
-        <common.rest.version>1.1.0</common.rest.version>
+        <common.rest.version>0.8.0</common.rest.version>
         <!-- common test dependencies -->
-        <junit.version>5.6.0</junit.version>
+        <junit.version>5.8.1</junit.version>
         <restassured.version>3.3.0</restassured.version>
-        <cnj.common.test.version>2.0.0</cnj.common.test.version>
+        <cnj.common.test.version>3.0.1</cnj.common.test.version>
         <!-- common persistence dependencies -->
         <flyway.version>6.5.7</flyway.version>
-        <postgres.jdbc.version>42.2.12</postgres.jdbc.version>
-        <common.persistence.jpa.version>2.1.0</common.persistence.jpa.version>
+        <postgres.jdbc.version>42.3.1</postgres.jdbc.version>
+        <common.persistence.version>0.8.0</common.persistence.version>
         <!-- docker related properties -->
         <docker.registry.name>docker.cloudtrain.aws.msgoat.eu</docker.registry.name>
         <docker.organization.name>cloudtrain</docker.organization.name>
@@ -43,36 +43,42 @@
         <!-- pinning versions of common maven plugins -->
         <maven.clean.plugin.version>3.1.0</maven.clean.plugin.version>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
-        <maven.dependency.plugin.version>3.1.1</maven.dependency.plugin.version>
-        <maven.deploy.plugin.version>2.8.2</maven.deploy.plugin.version>
-        <maven.enforcer.plugin.version>3.0.0-M3</maven.enforcer.plugin.version>
-        <maven.failsafe.plugin.version>2.22.1</maven.failsafe.plugin.version>
-        <maven.flatten.plugin.version>1.2.1</maven.flatten.plugin.version>
-        <maven.install.plugin.version>2.5.2</maven.install.plugin.version>
+        <maven.dependency.plugin.version>3.2.0</maven.dependency.plugin.version>
+        <maven.deploy.plugin.version>3.0.0-M1</maven.deploy.plugin.version>
+        <maven.enforcer.plugin.version>3.0.0</maven.enforcer.plugin.version>
+        <maven.failsafe.plugin.version>3.0.0-M5</maven.failsafe.plugin.version>
+        <maven.flatten.plugin.version>1.2.7</maven.flatten.plugin.version>
+        <maven.install.plugin.version>3.0.0-M1</maven.install.plugin.version>
         <maven.jar.plugin.version>3.2.0</maven.jar.plugin.version>
-        <maven.resources.plugin.version>3.1.0</maven.resources.plugin.version>
-        <maven.site.plugin.version>3.8.2</maven.site.plugin.version>
+        <maven.resources.plugin.version>3.2.0</maven.resources.plugin.version>
+        <maven.site.plugin.version>3.9.1</maven.site.plugin.version>
         <maven.source.plugin.version>3.2.1</maven.source.plugin.version>
-        <maven.surefire.plugin.version>2.22.1</maven.surefire.plugin.version>
+        <maven.surefire.plugin.version>3.0.0-M5</maven.surefire.plugin.version>
         <!-- pinning versions of application type specific maven plugins -->
-        <maven.war.plugin.version>3.2.3</maven.war.plugin.version>
-        <maven.payara.micro.plugin.version>1.0.6</maven.payara.micro.plugin.version>
+        <maven.war.plugin.version>3.3.2</maven.war.plugin.version>
+        <maven.payara.micro.plugin.version>1.4.0</maven.payara.micro.plugin.version>
         <!-- pinning versions of cloud native specific maven plugins -->
-        <maven.compose.plugin.version>2.0.0</maven.compose.plugin.version>
-        <maven.docker.plugin.version>0.33.0</maven.docker.plugin.version>
-        <maven.helm.plugin.version>3.0.0</maven.helm.plugin.version>
+        <maven.compose.plugin.version>3.0.0</maven.compose.plugin.version>
+        <maven.docker.plugin.version>0.37.0</maven.docker.plugin.version>
+        <maven.helm.plugin.version>4.0.0</maven.helm.plugin.version>
+        <!-- quality assurance properties -->
+        <sonar.host.url>https://sonarqube.cloudtrain.aws.msgoat.eu</sonar.host.url>
+        <maven.sonar.plugin.version>3.9.0.2155</maven.sonar.plugin.version>
+        <maven.jacoco.plugin.version>0.8.7</maven.jacoco.plugin.version>
+        <jacoco.address>localhost</jacoco.address>
+        <jacoco.port>38089</jacoco.port>
         <!-- new Maven version management -->
-        <revision>4.1.0</revision>
+        <revision>5.0.0</revision>
         <sha1></sha1>
         <changelist></changelist>
     </properties>
     <dependencyManagement>
         <dependencies>
-            <!-- Generic JEE 8 runtime dependencies -->
+            <!-- JakartaEE 9 runtime dependencies -->
             <dependency>
-                <groupId>javax</groupId>
-                <artifactId>javaee-web-api</artifactId>
-                <version>${javaee.version}</version>
+                <groupId>jakarta.platform</groupId>
+                <artifactId>jakarta.jakartaee-web-api</artifactId>
+                <version>${jakartaee.version}</version>
                 <scope>compile</scope>
             </dependency>
             <!-- Payara Micro Profile (to be used as test runtime only!) -->
@@ -104,12 +110,14 @@
         <!-- =========================== -->
         <!-- execution time dependencies -->
         <!-- =========================== -->
-        <!-- common dependencies section -->
+        <!-- runtime environment dependencies -->
+        <!-- JakartaEE 9 runtime dependencies -->
         <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-web-api</artifactId>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-web-api</artifactId>
             <scope>provided</scope>
         </dependency>
+        <!-- Microprofile runtime dependencies -->
         <dependency>
             <groupId>org.eclipse.microprofile.jwt</groupId>
             <artifactId>microprofile-jwt-auth-api</artifactId>
@@ -125,6 +133,7 @@
             <artifactId>microprofile-openapi-api</artifactId>
             <scope>provided</scope>
         </dependency>
+        <!-- common dependencies section -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -137,7 +146,7 @@
         </dependency>
         <dependency>
             <groupId>group.msg.at.cloud.common</groupId>
-            <artifactId>cnj-common-rest-jee</artifactId>
+            <artifactId>cnj-common-rest-jakarta</artifactId>
             <version>${common.rest.version}</version>
         </dependency>
         <dependency>
@@ -152,8 +161,8 @@
         </dependency>
         <dependency>
             <groupId>group.msg.at.cloud.common</groupId>
-            <artifactId>cnj-common-persistence-jpa</artifactId>
-            <version>${common.persistence.jpa.version}</version>
+            <artifactId>cnj-common-persistence-jakarta</artifactId>
+            <version>${common.persistence.version}</version>
         </dependency>
         <!-- showcase specific section -->
         <dependency>
@@ -260,6 +269,17 @@
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>flatten-maven-plugin</artifactId>
                     <version>${maven.flatten.plugin.version}</version>
+                </plugin>
+                <!-- quality assurance plugins -->
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${maven.jacoco.plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.sonarsource.scanner.maven</groupId>
+                    <artifactId>sonar-maven-plugin</artifactId>
+                    <version>${maven.sonar.plugin.version}</version>
                 </plugin>
                 <!-- application type specific maven plugins section -->
                 <plugin>
