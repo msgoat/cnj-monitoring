@@ -12,7 +12,6 @@ Build results: a Docker image containing a Spring Boot application.
 
 ## Exposed REST endpoints
 
-
 ## Exposed environment variables
 
 | Name | Required | Description |
@@ -26,9 +25,3 @@ Build results: a Docker image containing a Spring Boot application.
 | Port | Protocol | Description |
 | --- | --- | --- |
 | 8080 | HTTP | HTTP endpoint of this application | 
- 
-## Version / Tags
-
-| Tag(s) | Remarks |
-| --- | --- |
-| latest, 4.0.0 | first release |
