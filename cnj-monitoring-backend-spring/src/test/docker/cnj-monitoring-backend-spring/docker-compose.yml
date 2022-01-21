@@ -11,7 +11,7 @@ services:
   downstream:
     image: docker.cloudtrain.aws.msgoat.eu/cloudtrain/cnj-monitoring-downstream:latest
     environment:
-      SPRING_PROFILES_ACTIVE: dev
+      DOCKER_JAVA_OPTS: "-XX:+UseContainerSupport -Xms1g -Xmx1g"
       SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: https://oidc.cloudtrain.aws.msgoat.eu/auth/realms/cloudtrain/protocol/openid-connect/certs
       SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: https://oidc.cloudtrain.aws.msgoat.eu/auth/realms/cloudtrain
 
@@ -32,7 +32,7 @@ services:
     ports:
       - "38080:8080"
     environment:
-      SPRING_PROFILES_ACTIVE: dev
+      DOCKER_JAVA_OPTS: "-XX:+UseContainerSupport -Xms1g -Xmx1g"
       SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: https://oidc.cloudtrain.aws.msgoat.eu/auth/realms/cloudtrain/protocol/openid-connect/certs
       SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: https://oidc.cloudtrain.aws.msgoat.eu/auth/realms/cloudtrain
       CLOUDTRAIN_SERVICES_DOWNSTREAM_URL: http://downstream:8080
