@@ -1,32 +1,41 @@
-FROM docker.cloudtrain.aws.msgoat.eu/cloudtrain/at41-docker-jre11:3.0.0
+FROM eclipse-temurin:11-jre
 
-LABEL maintainer="michael.theis@msg.group" \
-        ${project.groupId}.${project.artifactId}.project="CloudTrain" \
-        ${project.groupId}.${project.artifactId}.version="${project.version}" \
-        ${project.groupId}.${project.artifactId}.description="${project.description}"
+LABEL maintainer="michael.theis@msg.group"
+LABEL ${project.groupId}.${project.artifactId}.project="CloudTrain"
+LABEL ${project.groupId}.${project.artifactId}.version="${project.version}"
+LABEL ${project.groupId}.${project.artifactId}.description="${project.description}"
 
-ENV JAVA_OPTS="" \
-    DOCKER_JAVA_OPTS="" \
+ARG ARG_JAVA_APPLICATION=${project.build.finalName}-runner.jar
+ARG ARG_JAVA_APPLICATION_HOME=/home/quarkus
+
+ENV JAVA_APPLICATION=${ARG_JAVA_APPLICATION} \
+    JAVA_APPLICATION_HOME=${ARG_JAVA_APPLICATION_HOME} \
+    JAVA_OPTS="-XshowSettings:vm -XX:+UseG1GC -XX:MetaspaceSize=256m -XX:+DisableExplicitGC -XX:+UseStringDeduplication -XX:+ParallelRefProcEnabled" \
+    EXT_JAVA_OPTS="" \
+    DOCKER_JAVA_OPTS="-XX:+UseContainerSupport -XX:InitialRAMPercentage=75.0 -XX:MaxRAMPercentage=75.0" \
     QUARKUS_JAVA_OPTS="" \
     QUARKUS_ARGUMENTS="" \
     WAIT_FOR_URLS="" \
     WAIT_FOR_ARGUMENTS="-i 5"
 
+# create non-root user to run application
 RUN echo "adding run user quarkus to system" && \
-    addgroup -S quarkus -g 1000 && \
-    adduser -S quarkus -u 1000 -G quarkus
+    addgroup --gid 1000 --system quarkus && \
+    adduser --system --disabled-login --disabled-password --ingroup quarkus --uid 1000 quarkus
 
-# copy build artifact into quarkus deployment folder
-COPY *.jar /home/quarkus/
-COPY docker-entrypoint.sh /home/quarkus/
-COPY wait-for.sh /home/quarkus/
+# copy entrypoint script
+COPY docker-entrypoint.sh /
 
-RUN chown -R quarkus:quarkus /home/quarkus && \
-    chmod u+x /home/quarkus/docker-entrypoint.sh && \
-    chmod u+x /home/quarkus/wait-for.sh
+# copy build artifacts into application home folder (here: quarkus deployment folder)
+COPY *.jar ${ARG_JAVA_APPLICATION_HOME}/
+
+# allow non-root user to access and execute all copied files
+RUN chown quarkus:quarkus /docker-entrypoint.sh \
+    && chmod u+x /docker-entrypoint.sh \
+    && chown -R quarkus:quarkus ${ARG_JAVA_APPLICATION_HOME}
 
 # use user ID instead of user name to allow kubernetes to check non-root users
 USER 1000
 
-ENTRYPOINT ["/home/quarkus/docker-entrypoint.sh"]
+ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["start"]
